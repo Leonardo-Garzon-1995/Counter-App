@@ -16,6 +16,17 @@
 <body>
     <div class="wrapper">
         <h1>Counter</h1>
+        <!-- Theme toggle-->
+        <label class="theme-toggle" for="theme-toggle-checkbox">
+            <input
+                type="checkbox"
+                id="theme-toggle-checkbox"
+                role="switch"
+                aria-label="Toggle dark mode"
+            />
+            <span class="theme-toggle__track" aria-hidden="true"></span>
+            <span class="theme-toggle__text">Dark mode</span>
+        </label>
         <div class="display-number"></div>
         <div class="buttons-box">
             <button class="substract-btn">-</button>
