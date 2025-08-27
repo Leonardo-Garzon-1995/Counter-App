@@ -4,19 +4,52 @@
     padding: 0;
 }
 
+
 :root {
-    /* Backgrounds */
-    --color-bg-light: #A8D0F0;
-    --color-bg-dark: #5A7CA0;
+  /* ---------- IMAGES (light) ---------- */
+    --bg-image-light: url("cat-snowy-landscape.jpg");
 
-    /* Text */
-    --color-text-light: #FFFFFF;
-    --color-text-dark: #2E2E2E;
+  /* ---------- COLOR SYSTEM (light) ---------- */
+  --color-bg: #A8D0F0;           /* sky blue background */
+  --color-surface: rgba(255,255,255,0.45); /* glass card background */
+  --color-border: #3E6B5A;       /* green frame */
+  --color-text: #2E2E2E;         /* primary text */
+  --color-text-inverse: #FFFFFF; /* on dark buttons */
+  --color-accent: #3E6B5A;       /* green buttons */
+  --color-highlight: #F7C59F;    /* warm accent (display) */
 
-    /* Accents / Highlights */
-    --color-accent-sunset: #F7C59F;
-    --color-accent-green: #3E6B5A;
+  /* ---------- ELEVATION / FX ---------- */
+    --shadow-1: 0 10px 30px rgba(0,0,0,0.15);
+
+  /* ---------- BACKGROUND CROSS-FADE ---------- */
+  --bg-dark-opacity: 0;  /* dark image hidden in light mode */
+  --bg-light-opacity: 1; /* light image visible */
 }
+
+/* Dark theme (from the night forest cat image) */
+:root[data-theme="dark"] {
+  /* Image (dark) */
+    --bg-image-dark: url("mystical-cat-enchanted-forest-night.jpg");
+
+  /* Night-sky palette */
+  --color-bg: #0F1950;             /* deep night blue */
+  --color-surface: rgba(15,25,80,0.55); /* glass card on dark */
+  --color-border: rgba(210,180,87,0.65); /* starlight gold outline */
+  --color-text: #E8ECFF;           /* soft near-white text */
+  --color-text-inverse: #0B0F2F;   /* for light text-on-dark inversions */
+  --color-accent: #D2B457;         /* starlight yellow */
+  --color-highlight: #2B3DA1;      /* royal blue accent */
+
+  /* Extras from the image if you want variety */
+  --accent-pink: #BD747A;          /* flowers */
+  --accent-amber: #D5B55C;         /* warm glow */
+
+  /* Background cross-fade */
+    --bg-dark-opacity: 1;
+    --bg-light-opacity: 0;
+}
+/* --------------------------------------------------------------------------------------------- */
+
 
 
 html, body {
@@ -26,27 +59,53 @@ html, body {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url(cat-snowy-landscape.jpg);
+    min-height: 100svh;
+    position: relative;
+    overflow-x: hidden;
+    background: var(--color-bg);
+}
+
+/* Two full-viewport layers: light image below, dark image above */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    z-index: -1;
+    transition: opacity 300ms ease;
+}
+
+/* Light image */
+body::before {
+    background-image: var(--bg-image-light);
+    opacity: var(--bg-light-opacity);
+}
+
+/* Dark image */
+body::after {
+    background-image: var(--bg-image-dark, none);
+    opacity: var(--bg-dark-opacity);
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 3px solid var(--color-accent-green);
+    border: 3px solid var(--color-border);
     border-radius: 20px;
     margin: 180px auto;
     padding: 20px 30px;
     max-width: 450px;
     backdrop-filter: blur(2.5px);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-1);
 }
 
 h1 {
     font-size: 3rem;
-    color: var(--color-text-dark);
+    color: var(--color-text);
     padding: 5px 10px;
     margin: 10px auto;
 }
@@ -54,59 +113,54 @@ h1 {
 .display-number {
     width: 75px;
     height: 75px;
-    border: 3px solid var(--color-accent-green);
+    border: 3px solid var(--color-border);
     border-radius: 8px;
     padding: 10px;
     margin: 10px auto;
-    background: var(--color-accent-sunset);
-    color: var(--color-text-dark);
+    background: var(--color-highlight);
+    color: var(--color-text);
     text-align: center;
     font-size: 1.9em;
     font-weight: 700;
 }
 
-.substract-btn {
+/* buttons */
+.substract-btn, .add-btn {
     font-size: 2.5em;
     padding: 3px 5px;
     width: 50px;
+
     height: 50px;
-    background: none;
     border: 3px solid var(--color-accent-green);
     border-radius: 5px;
     margin: 10px auto 20px;
-    color: var(--color-accent-green);
     transition: transform 150ms ease;
 } 
 
-.substract-btn:hover {
-    transform: translateY(-5px);
+.substract-btn {
+    background: transparent;
+    color: var(--color-accent);;
 }
 
 .add-btn {
-    font-size: 2.5em;
-    padding: 3px 5px;
-    width: 50px;
-    height: 50px;
-    background: var(--color-accent-green);
-    border: 3px solid var(--color-accent-green);
-    border-radius: 5px;
-    margin: 10px auto 20px;
-    color: var(--color-text-light);
-    transition: transform 150ms ease
-} 
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+}
 
+.substract-btn:hover,
 .add-btn:hover {
     transform: translateY(-5px);
 }
 
+
 .save-count-btn, .reset-btn {
     font-size: 1.5em;
     padding: 3px 5px;
-    border: 3px solid var(--color-accent-green);
+    border: 3px solid var(--color-border);
     border-radius: 5px;
     margin: 10px auto 20px;
-    color: var(--color-text-light);
-    background: var(--color-accent-green);
+    color: var(--color-text-inverse);
+    background: var(--color-accent);
     transition: transform 150ms ease
 }
 
@@ -117,5 +171,58 @@ h1 {
 li {
     list-style: "⏱️";
     font-size: 1.5em;
-    color: var(--color-text-dark);
+    color: var(--color-text);
+}
+
+/* Focus-visible for keyboard users */
+button:focus-visible,
+.theme-toggle input:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Toggle switch styling */
+.theme-toggle {
+    align-self: flex-end;
+    display: inline-flex;
+    gap: .6rem;
+    align-items: center;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.theme-toggle__text {
+    font-size: .95rem;
+    color: var(--color-text);
+}
+
+/* Hide native checkbox, keep it accessible */
+.theme-toggle input {
+    appearance: none;
+    width: 46px;
+    height: 26px;
+    border-radius: 999px;
+    border: 2px solid var(--color-border);
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(to right, var(--color-accent), var(--color-highlight));
+    transition: filter 200ms ease;
+}
+
+.theme-toggle input::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-text-inverse);
+    transition: left 200ms ease;
+}
+
+/* knob slides to the right when checked */
+.theme-toggle input:checked::after { 
+    left: 23px; 
 }
