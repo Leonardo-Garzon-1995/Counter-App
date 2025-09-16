@@ -52,6 +52,8 @@ substractBtn.addEventListener("click", () => {
 })
 
 saveBtn.addEventListener("click", () => {
+    saveToLocalStorage("num", num)
+    num = loadFromLocalStorage("num")
     let listEl = document.createElement("li")
     listEl.textContent = num
 
@@ -62,4 +64,15 @@ resetBtn.addEventListener("click", () => {
     savedDataUl.innerHTML = ""
     num = 0
     displayNumber.textContent = num
+
+    localStorage.removeItem("num")
 })
+
+// still working on this, have to figure out how to keep the content on the page after refresh
+function saveToLocalStorage(key, value) {
+  localStorage.setItem(key, value);
+}
+
+function loadFromLocalStorage(key) {
+  return localStorage.getItem(key);
+}
